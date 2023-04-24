@@ -6,15 +6,9 @@ import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 import styles from './App.module.scss';
 
-type TAppState = TPixabayResult & {
-  page: number;
-  isLoading: boolean;
-};
-
 export const App: React.FC<{}> = () => {
   const [hits, setHits] = useState<TPixabayHit[]>([]);
   const [total, setTotal] = useState(0);
-  const [totalHits, setTotalHits] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('');
@@ -25,12 +19,11 @@ export const App: React.FC<{}> = () => {
     setIsLoading(true);
 
     const per_page = 12;
-    const { hits, total, totalHits }: TPixabayResult = await fetch(
+    const { hits, total }: TPixabayResult = await fetch(
       `https://pixabay.com/api/?q=${filter}&page=${page}&key=34819237-929003d04d64445866cd0fd69&image_type=photo&orientation=horizontal&per_page=${per_page}`
     ).then((response) => response.json());
 
     setTotal(total);
-    setTotalHits(totalHits);
     setHits((current) => {
       return [...current, ...hits];
     });
@@ -50,7 +43,6 @@ export const App: React.FC<{}> = () => {
     setFilter(filter);
     setHits([]);
     setTotal(0);
-    setTotalHits(0);
     setPage(1);
   };
 
