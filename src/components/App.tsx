@@ -1,4 +1,4 @@
-import { FormEvent, useState, useEffect } from 'react';
+import { FormEvent, useState, useEffect, useCallback } from 'react';
 import { TPixabayHit, TPixabayResult } from './App.types';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
@@ -15,7 +15,7 @@ export const App: React.FC<{}> = () => {
 
   const shouldDisplayLoadMore = ((!isLoading && hits?.length) ?? 0) < total;
 
-  const loadPhotos = async () => {
+  const loadPhotos = useCallback(async () => {
     setIsLoading(true);
 
     const per_page = 12;
@@ -28,7 +28,7 @@ export const App: React.FC<{}> = () => {
       return [...current, ...hits];
     });
     setIsLoading(false);
-  };
+  }, [filter, page]);
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
