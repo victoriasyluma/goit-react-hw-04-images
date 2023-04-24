@@ -56,7 +56,7 @@ export const App: React.FC<{}> = () => {
     if (filter === '') return;
 
     loadPhotos();
-  }, [filter, page]);
+  }, [filter, page, loadPhotos]);
 
   return (
     <div className={styles.container}>
